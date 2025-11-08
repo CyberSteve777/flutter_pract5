@@ -153,7 +153,15 @@ class _CoursesScreenState extends State<CoursesScreen> {
               course: course,
               teacher: dataService.teachers.firstWhere((t) => t.id == course.teacherId),
               onEnrollStudent: () => _enrollStudent(course),
-              onEdit: () {}, // Empty edit function for now
+              onEdit: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Находится в разработке...'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
               onDelete: () => _deleteCourse(course),
             ),
           );
