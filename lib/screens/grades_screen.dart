@@ -4,15 +4,14 @@ import '../services/data_service.dart';
 import '../widgets/widgets.dart';
 
 class GradesScreen extends StatefulWidget {
-  const GradesScreen({super.key});
+  final DataService dataService;
+  const GradesScreen({super.key, required this.dataService});
 
   @override
   State<GradesScreen> createState() => _GradesScreenState();
 }
 
 class _GradesScreenState extends State<GradesScreen> {
-  final DataService dataService = DataService();
-
   void _addGrade() {
     final gradeController = TextEditingController();
     String selectedStudentId = '';
@@ -29,7 +28,7 @@ class _GradesScreenState extends State<GradesScreen> {
               DropdownButton<String>(
                 value: selectedStudentId.isEmpty ? null : selectedStudentId,
                 hint: const Text('Выберите студента'),
-                items: dataService.students.map((student) {
+                items: widget.dataService.students.map((student) {
                   return DropdownMenuItem(
                     value: student.id,
                     child: Text(student.name),
@@ -44,7 +43,7 @@ class _GradesScreenState extends State<GradesScreen> {
               DropdownButton<String>(
                 value: selectedCourseId.isEmpty ? null : selectedCourseId,
                 hint: const Text('Выберите курс'),
-                items: dataService.courses.map((course) {
+                items: widget.dataService.courses.map((course) {
                   return DropdownMenuItem(
                     value: course.id,
                     child: Text(course.name),
@@ -81,7 +80,7 @@ class _GradesScreenState extends State<GradesScreen> {
                     comments: '',
                   );
                   this.setState(() {
-                    dataService.addGrade(newGrade);
+                    widget.dataService.addGrade(newGrade);
                   });
                   Navigator.pop(context);
                 }
@@ -135,7 +134,7 @@ class _GradesScreenState extends State<GradesScreen> {
                   comments: commentsController.text,
                 );
                 setState(() {
-                  dataService.updateGrade(updatedGrade);
+                  widget.dataService.updateGrade(updatedGrade);
                 });
                 Navigator.pop(context);
               }
@@ -161,7 +160,7 @@ class _GradesScreenState extends State<GradesScreen> {
           TextButton(
             onPressed: () {
               setState(() {
-                dataService.deleteGrade(grade.id);
+                widget.dataService.deleteGrade(grade.id);
               });
               Navigator.pop(context);
             },
@@ -174,24 +173,21 @@ class _GradesScreenState extends State<GradesScreen> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Оценки'),
-    ),
+    return Scaffold(
+      appBar: null,
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
-        itemCount: dataService.grades.length,
+        itemCount: widget.dataService.grades.length,
         itemBuilder: (context, index) {
-          final grade = dataService.grades[index];
-          final student = dataService.students.firstWhere(
-            (s) => s.id == grade.studentId,
-            orElse: () => Student(id: '', name: 'Неизвестно', email: '', enrolledCourses: []),
+          final grade = widget.dataService.grades[index];
+          final student = widget.dataService.students.firstWhere(
+                (s) => s.id == grade.studentId,
+            orElse: () => Student(id: '', name: 'Неизвестно', email: '', enrolledCourses: const []),
           );
-          final course = dataService.courses.firstWhere(
-            (c) => c.id == grade.courseId,
+          final course = widget.dataService.courses.firstWhere(
+                (c) => c.id == grade.courseId,
             orElse: () => Course(id: '', name: 'Неизвестно', code: '', credits: 0, teacherId: ''),
           );
-          
           return Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: GradeCard(

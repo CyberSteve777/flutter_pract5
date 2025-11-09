@@ -4,15 +4,14 @@ import '../services/data_service.dart';
 import '../widgets/widgets.dart';
 
 class TeachersScreen extends StatefulWidget {
-  const TeachersScreen({super.key});
+  final DataService dataService;
+  const TeachersScreen({super.key, required this.dataService});
 
   @override
   State<TeachersScreen> createState() => _TeachersScreenState();
 }
 
 class _TeachersScreenState extends State<TeachersScreen> {
-  final DataService dataService = DataService();
-
   void _addTeacher() {
     final nameController = TextEditingController();
     final emailController = TextEditingController();
@@ -67,7 +66,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
                   subjects: [],
                 );
                 setState(() {
-                  dataService.addTeacher(newTeacher);
+                  widget.dataService.addTeacher(newTeacher);
                 });
                 Navigator.pop(context);
               }
@@ -133,7 +132,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
                   subjects: teacher.subjects,
                 );
                 setState(() {
-                  dataService.updateTeacher(updatedTeacher);
+                  widget.dataService.updateTeacher(updatedTeacher);
                 });
                 Navigator.pop(context);
               }
@@ -159,7 +158,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
           TextButton(
             onPressed: () {
               setState(() {
-                dataService.deleteTeacher(teacher.id);
+                widget.dataService.deleteTeacher(teacher.id);
               });
               Navigator.pop(context);
             },
@@ -173,14 +172,12 @@ class _TeachersScreenState extends State<TeachersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Преподаватели'),
-      ),
+      appBar: null,
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
-        itemCount: dataService.teachers.length,
+        itemCount: widget.dataService.teachers.length,
         itemBuilder: (context, index) {
-          final teacher = dataService.teachers[index];
+          final teacher = widget.dataService.teachers[index];
           return Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: TeacherCard(
