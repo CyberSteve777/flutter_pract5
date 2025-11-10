@@ -40,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _buildBody(),
-      floatingActionButton: _buildFab(),
     );
   }
 
@@ -148,11 +147,5 @@ class _HomeScreenState extends State<HomeScreen> {
       case _Section.grades:
         return GradesScreen(dataService: dataService);
     }
-  }
-
-  Widget? _buildFab() {
-    // Встраиваемые экраны содержат собственные FAB внутри.
-    // На домашнем экране дополнительный FAB не требуется.
-    return null;
   }
 }
