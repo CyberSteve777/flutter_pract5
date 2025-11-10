@@ -28,7 +28,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(labelText: 'Имя'),
+              decoration: const InputDecoration(labelText: 'ФИО'),
             ),
             TextField(
               controller: emailController,
@@ -94,7 +94,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(labelText: 'Имя'),
+              decoration: const InputDecoration(labelText: 'ФИО'),
             ),
             TextField(
               controller: emailController,
